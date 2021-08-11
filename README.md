@@ -3,7 +3,8 @@
 Item recommendation is a recommendation system that determines which target words have the priority to be used in the
 exercises. We have 16k target works a.k.a lemposes in Elia (lempos = lemma + pos, e.g. work_NOUN). However, in any moment some of the words 
 will have higher probability to be forgotten by the users. Therefore, the lemposes practiced by the users have a probability of forgetting 
-value calculated by a machine learning algorithm. 
+value calculated by a machine learning algorithm. This task is about creating a function that can run this ML model for each user and
+each lempos(words) that they have seen. Hence, it should be optimised as much as possible. 
 
 ## Existing Method: Half-life regression
 
@@ -40,17 +41,26 @@ of features.
 Inputs to Algorithm:
 
     all rows of learner_info_history table including given user_id: log_id, info_id, date, knowledge
-
-
+    
+    log_id: unique id of sessions
+    info_id: unique id of the information practiced (translation, synonym, form, etc of information of the lempos)
+    date: datetime 
+    knowledge: int enumerated as
+    [ACT : 1, NRCG: 2, NTC :3, RCG: 4, NRCL: 5, PRCL: 6, RCL: 7]
+    
+    NRCL, NRCG -> incorrect answers
+    RCG, PRCL, RCL -> correct answers
+    NTC, ACT -> neither correct nor incorrect, it should be counted to the times that word is seen. 
+    
 ##### Steps:
     1: Group by log_id to determine the sessions.
     2: Compute correct and incorrect answers for each session (NRL, NRCG-> incorrect - PRCL, RCL, RCG->correct).
     3: Compute total incorrect and correct answers for each row (NRL, NRCG-> incorrect - PRCL, RCL, RCG->correct).
-    5: Join with component_information and lempos_component table to obtain lemposes.
-    6. Group by lemposes to obtain latest date practiced.
-    7. Compose feature vector for Spacing Algorithm.
-    8: Retrive previous half-life.
-    9. Update half-life and forgetting probability with Spacing method with new feature vector.
+    4: Join with component_information and lempos_component table to obtain lemposes.
+    5. Group by lemposes to obtain latest date practiced.
+    6. Compose feature vector for Spacing Algorithm.
+    7: Retrive previous half-life.
+    8. Update half-life and forgetting probability with Spacing method with new feature vector.
 
 
 ### Update for each user (new DB Architecture)

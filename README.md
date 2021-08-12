@@ -1,15 +1,13 @@
 # Item Recommendation
 
-Item recommendation is a recommendation system that determines which target words have the priority to be used in the
+We use item recommendation system in Elia real-time to determine which target words have the priority to be used in
 exercises. We have 16k target works a.k.a lemposes in Elia (lempos = lemma + pos, e.g. work_NOUN). However, in any moment some of the words 
-will have higher probability to be forgotten by the users. Therefore, the lemposes practiced by the users have a probability of forgetting 
-value calculated by a machine learning algorithm. This task is about the integration this ML model to our systems. It will retrieve users' interaction
-with the lemposes (words) from the table, calculate the probability of forgetting and update tables for new values. It should be run for each user and
-each lempos(words) that they have seen. Hence, it should be optimised as much as possible. 
+will have higher probability to be forgotten by the users. Therefore, the lemposes to be practiced by the users in exercises have a probability of forgetting 
+value calculated by a machine learning model (this model has already been trained). The goal of this task is to create a code which would integrate this ML algorithm with our systems of databases. The integration pipeline should 1) retrieve users' data with the lemposes (words) from a table that would serve as an input to the trained ML model, 2) run the model to calculate the probability of forgetting and 3) store this output in a user table. It should be run for each user and each lempos(words) that they have seen. This is a real-time process which is repeated on regular basis (we might have 50 such instances in one second). Hence, it should be optimised as much as possible. 
 
-## Existing ML Method: Half-life regression
+## Existing ML Model: Half-life regression
 
-The method is defined [here](https://research.duolingo.com/papers/settles.acl16.pdf). It creates a feature vector for each user
+The model is defined [here](https://research.duolingo.com/papers/settles.acl16.pdf). It creates a feature vector for each user
 to obtain half-life and the probability of recall for the given word. For example, if the half-time is 2 days, 2 days after the user
 is practiced the word, the user has 0.5 chance to recall the word, in other words 1-0.5=0.5 is the probability of forgetting the word. 
 Therefore, with the help of this method, a function will produce a probability of forgetting for each word practiced by the users. 

@@ -1,6 +1,6 @@
 # Item Recommendation
 
-We use item recommendation system in Elia real-time to determine which target words have the priority to be used in
+We use item recommendation system in Elia to determine which target words have the priority to be used in
 exercises. We have 16k target works a.k.a lemposes in Elia (lempos = lemma + pos, e.g. work_NOUN). However, in any moment some of the words 
 will have higher probability to be forgotten by the users. Therefore, the lemposes to be practiced by the users in exercises have a probability of forgetting 
 value calculated by a machine learning model (this model has already been trained). The goal of this task is to create a code which would integrate this ML algorithm with our systems of databases. The integration pipeline should 1) retrieve users' data with the lemposes (words) from a table that would serve as an input to the trained ML model, 2) run the model to calculate the probability of forgetting and 3) store this output in a user table. It should be run for each user and each lempos(words) that they have seen. This is a real-time process which is repeated on regular basis (we might have 50 such instances in one second). Hence, it should be optimised as much as possible. 

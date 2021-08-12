@@ -3,10 +3,11 @@
 Item recommendation is a recommendation system that determines which target words have the priority to be used in the
 exercises. We have 16k target works a.k.a lemposes in Elia (lempos = lemma + pos, e.g. work_NOUN). However, in any moment some of the words 
 will have higher probability to be forgotten by the users. Therefore, the lemposes practiced by the users have a probability of forgetting 
-value calculated by a machine learning algorithm. This task is about creating a function that can run this ML model for each user and
+value calculated by a machine learning algorithm. This task is about the integration this ML model to our systems. It will retrieve users' interaction
+with the lemposes (words) from the table, calculate the probability of forgetting and update tables for new values. It should be run for each user and
 each lempos(words) that they have seen. Hence, it should be optimised as much as possible. 
 
-## Existing Method: Half-life regression
+## Existing ML Method: Half-life regression
 
 The method is defined [here](https://research.duolingo.com/papers/settles.acl16.pdf). It creates a feature vector for each user
 to obtain half-life and the probability of recall for the given word. For example, if the half-time is 2 days, 2 days after the user
